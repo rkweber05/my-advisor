@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, tipos e testes unitários
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+
+  database-and-e2e:
+    name: Banco, integração e E2E
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      # Sobe o banco local e aplica todas as migrations: falha aqui é migration inválida.
+      - name: Subir Supabase local e aplicar migrations
+        run: supabase start
+      - name: Exportar variáveis do Supabase local
+        run: |
+          supabase status -o env > supabase.env
+          echo "NEXT_PUBLIC_SUPABASE_URL=$(grep '^API_URL=' supabase.env | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
+          echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=$(grep '^PUBLISHABLE_KEY=' supabase.env | cut -d= -f2- | tr -d '"')" >> "$GITHUB_ENV"
+          # Chave do Supabase local deste job, descartada com ele. Mascarada nos logs.
+          secret_key="$(grep '^SECRET_KEY=' supabase.env | cut -d= -f2- | tr -d '"')"
+          echo "::add-mask::$secret_key"
+          echo "SUPABASE_SECRET_KEY=$secret_key" >> "$GITHUB_ENV"
+          rm supabase.env
+      - run: pnpm test:db
+      - run: pnpm test:integration
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+      - name: Parar Supabase local
+        if: always()
+        run: supabase stop --no-backup

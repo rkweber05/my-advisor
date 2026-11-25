@@ -1,0 +1,22 @@
+-- Critério 8 da Fase 1 (SEC-003): não existe tabela em `public` sem RLS.
+begin;
+
+create extension if not exists pgtap with schema extensions;
+
+select plan(1);
+
+select is_empty(
+  $$
+    select c.relname
+    from pg_catalog.pg_class c
+    join pg_catalog.pg_namespace n on n.oid = c.relnamespace
+    where n.nspname = 'public'
+      and c.relkind in ('r', 'p')
+      and not c.relrowsecurity
+  $$,
+  'toda tabela do schema public tem RLS habilitado'
+);
+
+select * from finish();
+
+rollback;
