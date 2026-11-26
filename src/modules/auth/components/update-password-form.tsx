@@ -23,7 +23,7 @@ export function UpdatePasswordForm() {
       ref={formRef}
       action={formAction}
       noValidate
-      className="flex max-w-sm flex-col gap-5"
+      className="flex flex-col gap-5"
     >
       <FormMessage state={state} />
       <PasswordField

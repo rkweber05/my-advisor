@@ -3,7 +3,7 @@
 Convenções, fluxo de migrations e esquema atual. Desenho geral em
 [ARCHITECTURE.md §6](ARCHITECTURE.md).
 
-Última atualização: Fase 1 implementada localmente (2026-11-25).
+Última atualização: Fase 2 implementada localmente (2026-11-25).
 
 ## Esquema atual
 
@@ -64,6 +64,37 @@ insert into public.signup_allowlist (email) values ('pessoa@exemplo.com');
 Uma linha por exclusão de conta concluída (D-14): `id` e `completed_at`, sem ligação com a
 pessoa. Migration `20261125223039_account_deletions.sql`. RLS habilitado, nenhuma política e
 nenhum privilégio para `anon` e `authenticated`: só o servidor grava, com a chave secreta.
+
+### Tabelas da Fase 2
+
+Migrations `20261126000001` a `20261126000005`. Todas seguem as convenções abaixo, com RLS de
+quatro políticas e privilégio por coluna: pela API ninguém informa `id` nem `user_id`. Dinheiro
+em centavos inteiros (`bigint`, D-16).
+
+| Tabela         | Colunas do domínio                                                                                                                                                                  | Observações                                                                                             |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `categories`   | `name`, `type` (`income`, `expense`), `is_active`                                                                                                                                   | Nome único por pessoa e tipo; o tipo não é alterável. Toda conta nasce com 12 de despesa e 5 de receita |
+| `accounts`     | `name`, `institution`, `account_type`, `initial_balance_cents`, `is_active`                                                                                                         | Nome único por pessoa; saldo inicial pode ser negativo                                                  |
+| `cards`        | `name`, `institution`, `brand`, `credit_limit_cents`, `closing_day`, `due_day`, `is_active`                                                                                         | Só cartão de crédito. Nunca guarda número, validade nem código                                          |
+| `transactions` | `type`, `amount_cents`, `transaction_date`, `description`, `category_id`, `payment_method`, `account_id`, `card_id`, `destination_account_id`, `status`, `notes`, `idempotency_key` | Ver abaixo                                                                                              |
+
+**`transactions`**
+
+- `type`: `income`, `expense`, `transfer` ou `card_payment`. Não é alterável.
+- `amount_cents` sempre positivo, de 1 a 99.999.999.999; o sentido vem do tipo.
+- **Chaves compostas com `user_id`** para categoria, conta, cartão e conta de destino. A da
+  categoria inclui o tipo: receita não usa categoria de despesa.
+- **Restrição `transactions_fields_by_type`**: o que cada tipo exige e proíbe (despesa no
+  crédito tem cartão e não tem conta; transferência tem origem e destino diferentes; e assim
+  por diante).
+- `unique (user_id, idempotency_key)`: o reenvio do mesmo formulário não grava de novo.
+- Excluir categoria, conta ou cartão em uso falha na chave estrangeira (D-23).
+
+**View `account_balances`** (`security_invoker = true`): saldo inicial mais receitas e
+transferências recebidas, menos tudo o que saiu da conta. Só movimentações `completed`.
+
+`audit_events` passou a aceitar `transaction_created`, `transaction_updated` e
+`transaction_deleted`, com `entity_type` e `entity_id`.
 
 ### Funções
 

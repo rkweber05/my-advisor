@@ -4,22 +4,23 @@ Detalha o §10 do SDD. Cada fase segue as etapas A a E do §13 (spec, plano, imp
 validação, aprovação) e só começa com a anterior aprovada e com as suas decisões fechadas.
 
 Status: **Fase 0 implementada localmente** (falta CI e preview); **Fase 1 implementada
-localmente** em 2026-11-25, aguardando aprovação e o CI; as demais fases são proposta. Decisões `D-xx` em
+localmente** em 2026-11-25, aguardando aprovação e o CI; **Fase 2 implementada localmente** em 2026-11-25; as demais fases
+são proposta. Decisões `D-xx` em
 [decisions/README.md](decisions/README.md).
 
 ## Visão geral
 
-| Fase | Entrega                                     | Depende de            | Decisões a fechar antes | Tamanho |
-| ---- | ------------------------------------------- | --------------------- | ----------------------- | ------- |
-| 0    | Fundação: projeto, ferramentas, CI, preview | —                     | D-01 a D-10             | P       |
-| 1    | Autenticação, perfil, isolamento            | 0                     | D-11 a D-15             | M       |
-| 2    | Núcleo financeiro                           | 1                     | D-16 a D-23             | G       |
-| 3    | Dashboard                                   | 2                     | —                       | M       |
-| 4    | Planejamento e metas                        | 2 (3 para os widgets) | D-24 a D-26             | M       |
-| 5    | Advisor IA                                  | 2, 3, 4               | D-27, D-28              | G       |
-| 6    | Relatórios e exportação                     | 2                     | —                       | M       |
-| 7    | WhatsApp                                    | 5                     | spec própria            | G       |
-| 8    | Preparação para produção                    | todas                 | D-29                    | M       |
+| Fase | Entrega                                     | Depende de            | Decisões a fechar antes  | Tamanho |
+| ---- | ------------------------------------------- | --------------------- | ------------------------ | ------- |
+| 0    | Fundação: projeto, ferramentas, CI, preview | —                     | D-01 a D-10              | P       |
+| 1    | Autenticação, perfil, isolamento            | 0                     | D-11 a D-15              | M       |
+| 2    | Núcleo financeiro                           | 1                     | D-16 a D-23, D-35 a D-39 | G       |
+| 3    | Dashboard                                   | 2                     | —                        | M       |
+| 4    | Planejamento e metas                        | 2 (3 para os widgets) | D-24 a D-26              | M       |
+| 5    | Advisor IA                                  | 2, 3, 4               | D-27, D-28               | G       |
+| 6    | Relatórios e exportação                     | 2                     | —                        | M       |
+| 7    | WhatsApp                                    | 5                     | spec própria             | G       |
+| 8    | Preparação para produção                    | todas                 | D-29                     | M       |
 
 Tamanho é relativo (P, M, G), não é prazo.
 
@@ -73,6 +74,9 @@ local).
 **Conclusão**: critérios de aceite do Módulo 01 e AUTH-001 a AUTH-006 demonstrados por teste.
 
 ## Fase 2 — Núcleo financeiro
+
+Spec completa em [specs/fase-2-core-finance.md](specs/fase-2-core-finance.md), aprovada em
+2026-11-25.
 
 **Entregas, em ordem**
 

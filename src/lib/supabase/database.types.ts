@@ -49,6 +49,42 @@ export type Database = {
         };
         Relationships: [];
       };
+      accounts: {
+        Row: {
+          account_type: string;
+          created_at: string;
+          id: string;
+          initial_balance_cents: number;
+          institution: string | null;
+          is_active: boolean;
+          name: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          account_type: string;
+          created_at?: string;
+          id?: string;
+          initial_balance_cents?: number;
+          institution?: string | null;
+          is_active?: boolean;
+          name: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Update: {
+          account_type?: string;
+          created_at?: string;
+          id?: string;
+          initial_balance_cents?: number;
+          institution?: string | null;
+          is_active?: boolean;
+          name?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       audit_events: {
         Row: {
           created_at: string;
@@ -72,6 +108,78 @@ export type Database = {
           entity_type?: string | null;
           event_type?: string;
           id?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      cards: {
+        Row: {
+          brand: string;
+          closing_day: number | null;
+          created_at: string;
+          credit_limit_cents: number | null;
+          due_day: number | null;
+          id: string;
+          institution: string | null;
+          is_active: boolean;
+          name: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          brand: string;
+          closing_day?: number | null;
+          created_at?: string;
+          credit_limit_cents?: number | null;
+          due_day?: number | null;
+          id?: string;
+          institution?: string | null;
+          is_active?: boolean;
+          name: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Update: {
+          brand?: string;
+          closing_day?: number | null;
+          created_at?: string;
+          credit_limit_cents?: number | null;
+          due_day?: number | null;
+          id?: string;
+          institution?: string | null;
+          is_active?: boolean;
+          name?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
+      categories: {
+        Row: {
+          created_at: string;
+          id: string;
+          is_active: boolean;
+          name: string;
+          type: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          is_active?: boolean;
+          name: string;
+          type: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          is_active?: boolean;
+          name?: string;
+          type?: string;
+          updated_at?: string;
           user_id?: string;
         };
         Relationships: [];
@@ -118,9 +226,126 @@ export type Database = {
         };
         Relationships: [];
       };
+      transactions: {
+        Row: {
+          account_id: string | null;
+          amount_cents: number;
+          card_id: string | null;
+          category_id: string | null;
+          created_at: string;
+          description: string | null;
+          destination_account_id: string | null;
+          id: string;
+          idempotency_key: string;
+          notes: string | null;
+          payment_method: string | null;
+          status: string;
+          transaction_date: string;
+          type: string;
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          account_id?: string | null;
+          amount_cents: number;
+          card_id?: string | null;
+          category_id?: string | null;
+          created_at?: string;
+          description?: string | null;
+          destination_account_id?: string | null;
+          id?: string;
+          idempotency_key: string;
+          notes?: string | null;
+          payment_method?: string | null;
+          status?: string;
+          transaction_date: string;
+          type: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Update: {
+          account_id?: string | null;
+          amount_cents?: number;
+          card_id?: string | null;
+          category_id?: string | null;
+          created_at?: string;
+          description?: string | null;
+          destination_account_id?: string | null;
+          id?: string;
+          idempotency_key?: string;
+          notes?: string | null;
+          payment_method?: string | null;
+          status?: string;
+          transaction_date?: string;
+          type?: string;
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "transactions_user_id_account_id_fkey";
+            columns: ["user_id", "account_id"];
+            isOneToOne: false;
+            referencedRelation: "account_balances";
+            referencedColumns: ["user_id", "account_id"];
+          },
+          {
+            foreignKeyName: "transactions_user_id_account_id_fkey";
+            columns: ["user_id", "account_id"];
+            isOneToOne: false;
+            referencedRelation: "accounts";
+            referencedColumns: ["user_id", "id"];
+          },
+          {
+            foreignKeyName: "transactions_user_id_card_id_fkey";
+            columns: ["user_id", "card_id"];
+            isOneToOne: false;
+            referencedRelation: "cards";
+            referencedColumns: ["user_id", "id"];
+          },
+          {
+            foreignKeyName: "transactions_user_id_category_id_type_fkey";
+            columns: ["user_id", "category_id", "type"];
+            isOneToOne: false;
+            referencedRelation: "categories";
+            referencedColumns: ["user_id", "id", "type"];
+          },
+          {
+            foreignKeyName: "transactions_user_id_destination_account_id_fkey";
+            columns: ["user_id", "destination_account_id"];
+            isOneToOne: false;
+            referencedRelation: "account_balances";
+            referencedColumns: ["user_id", "account_id"];
+          },
+          {
+            foreignKeyName: "transactions_user_id_destination_account_id_fkey";
+            columns: ["user_id", "destination_account_id"];
+            isOneToOne: false;
+            referencedRelation: "accounts";
+            referencedColumns: ["user_id", "id"];
+          },
+        ];
+      };
     };
     Views: {
-      [_ in never]: never;
+      account_balances: {
+        Row: {
+          account_id: string | null;
+          balance_cents: number | null;
+          user_id: string | null;
+        };
+        Insert: {
+          account_id?: string | null;
+          balance_cents?: never;
+          user_id?: string | null;
+        };
+        Update: {
+          account_id?: string | null;
+          balance_cents?: never;
+          user_id?: string | null;
+        };
+        Relationships: [];
+      };
     };
     Functions: {
       hook_before_user_created: { Args: { event: Json }; Returns: Json };

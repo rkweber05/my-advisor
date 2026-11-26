@@ -8,7 +8,8 @@ dividir o mesmo ADR.
 Status possíveis: **pendente**, **aprovada**, **recusada**, **substituída**.
 
 Aprovadas: D-01 a D-10 (2026-11-23, [ADR 0001](0001-fundacao.md)); D-11 a D-15 e D-30 a D-33
-(2026-11-24, [ADR 0002](0002-autenticacao.md)). As demais estão **pendentes**. A alternativa
+(2026-11-24, [ADR 0002](0002-autenticacao.md)); D-34 (2026-11-25, ADR 0002); D-16 a D-23 e D-35
+a D-39 (2026-11-25, [ADR 0003](0003-nucleo-financeiro.md)). As demais estão **pendentes**. A alternativa
 recomendada vem primeiro.
 
 ## Fase 0 — aprovadas
@@ -48,7 +49,10 @@ Detalhes e plano em [../specs/fase-1-authentication.md](../specs/fase-1-authenti
 | ---- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | D-34 | Token de acesso válido depois do logout | Validade do token reduzida de 1 hora para 10 minutos. Alternativas descartadas: aceitar a janela de 1 hora; fazer o banco conferir a sessão em cada consulta (exigiria outra função `SECURITY DEFINER`) |
 
-## Bloqueiam a Fase 2
+## Fase 2 — aprovadas
+
+Aprovadas em 2026-11-25 ([ADR 0003](0003-nucleo-financeiro.md)). Em cada linha, a alternativa
+em negrito é a aprovada.
 
 | ID   | Decisão                                       | Alternativas                                                                                                                                               | Por que a recomendação                                                                                                                                            |
 | ---- | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -60,6 +64,16 @@ Detalhes e plano em [../specs/fase-1-authentication.md](../specs/fase-1-authenti
 | D-21 | Cartões                                       | **Acrescentar `brand`; `cards` representa só cartão de crédito; débito é forma de pagamento ligada à conta** · `cards.type` com crédito e débito           | Limite, fechamento e vencimento só existem no crédito (C-08).                                                                                                     |
 | D-22 | Duplicidade (TRANS-007)                       | **Chave de idempotência por envio do formulário, com restrição única, e aviso quando já existe lançamento com mesmo valor, data e descrição** · só o aviso | A chave elimina o duplo clique e o reenvio; o aviso cobre o lançamento repetido de propósito. A mesma chave servirá ao WhatsApp.                                  |
 | D-23 | Exclusão de categoria, conta ou cartão em uso | **Bloquear a exclusão e oferecer desativar** · excluir e deixar a movimentação sem vínculo                                                                 | Preserva o histórico e os relatórios.                                                                                                                             |
+
+Decisões acrescentadas pela spec da Fase 2 ([../specs/fase-2-core-finance.md](../specs/fase-2-core-finance.md)):
+
+| ID   | Decisão                       | Alternativas                                                                                           | Por que a recomendação                                                                                             |
+| ---- | ----------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| D-35 | Saldo por conta               | **Mostrar na lista de contas na Fase 2** · deixar para a Fase 3                                        | É a razão de registrar transferência e pagamento de fatura; sem ele, a pessoa não confere o que lançou.            |
+| D-36 | Exclusão de movimentação      | **Definitiva, com evento de auditoria sem valores** · lixeira com restauração                          | Mais simples e coerente com a exclusão de conta. Custo: exclusão por engano não tem volta.                         |
+| D-37 | Campos obrigatórios           | **Valor, categoria, forma de pagamento e conta ou cartão; descrição opcional** · descrição obrigatória | Menos toques no celular. Exigir conta faz o saldo fechar; custo: cadastrar uma conta antes do primeiro lançamento. |
+| D-38 | Criação das categorias padrão | **Na função que já cria o perfil (`handle_new_user`)** · criar no primeiro acesso, pela aplicação      | Toda conta nasce completa. Custo: amplia o escopo da única função `SECURITY DEFINER` (ADR 0002, D-31).             |
+| D-39 | Tipo da movimentação          | **Não muda depois de criada** · permitir a troca                                                       | Cada tipo exige campos diferentes; trocar obrigaria a refazer quase tudo. Excluir e lançar de novo resolve.        |
 
 ## Bloqueiam a Fase 4
 

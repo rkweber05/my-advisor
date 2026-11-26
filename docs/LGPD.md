@@ -3,7 +3,7 @@
 Registro vivo do que o sistema trata, por quê e com quem compartilha. Cada fase acrescenta o que
 passou a tratar; a Fase 8 faz a revisão final. Requisitos no [SDD §7](SDD.md).
 
-Última atualização: Fase 1 implementada localmente (2026-11-25).
+Última atualização: Fase 2 implementada localmente (2026-11-25).
 
 > Este documento é um registro técnico. Não substitui a revisão jurídica exigida pelo SDD §7.7
 > antes da disponibilização pública.
@@ -25,6 +25,12 @@ usuários fictícios dos testes.
   o perfil e os eventos. Fica uma linha em `account_deletions` com a data, sem ligação com a
   pessoa. O e-mail **não** é removido da lista de autorizados.
 - **E-mails de conta** (confirmação e recuperação) são enviados pelo Supabase Auth.
+
+Com a Fase 2, o sistema passa a tratar **dados financeiros**: movimentações (valor, data,
+descrição, observações), contas, cartões e categorias. De cartão ficam só nome, instituição,
+bandeira, limite e dias de fechamento e vencimento; nunca número, validade ou código. Descrição
+e observações são texto livre: a pessoa pode escrever nelas dado de terceiros. Tudo é apagado
+junto com a conta. Não há exportação até a Fase 6.
 
 ## Registro das operações de tratamento
 

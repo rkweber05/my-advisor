@@ -9,8 +9,11 @@ _Seu dinheiro, sob controle._
 Preview Deployment na Vercel para ela ser concluída.
 
 **Fase 1 (autenticação) implementada localmente**: cadastro fechado por lista de e-mails, login,
-logout, recuperação de senha, perfil, auditoria e exclusão de conta. Faltam a aprovação do
-proprietário e o CI. Ainda não há funcionalidade financeira.
+logout, recuperação de senha, perfil, auditoria e exclusão de conta.
+
+**Fase 2 (núcleo financeiro) implementada localmente**: categorias, contas, cartões, lançamento
+de receita, despesa, transferência e pagamento de fatura, saldo por conta e histórico com
+filtros. Faltam a aprovação do proprietário e a conferência do CI.
 
 ## Como rodar
 
@@ -47,7 +50,9 @@ Na primeira vez, instale o navegador dos testes E2E com `pnpm exec playwright in
 | [docs/decisions/README.md](docs/decisions/README.md)                       | Decisões pendentes e aprovadas                             |
 | [docs/specs/fase-0-foundation.md](docs/specs/fase-0-foundation.md)         | Especificação e plano da Fase 0                            |
 | [docs/specs/fase-1-authentication.md](docs/specs/fase-1-authentication.md) | Especificação, plano e andamento da Fase 1                 |
+| [docs/specs/fase-2-core-finance.md](docs/specs/fase-2-core-finance.md)     | Especificação e plano da Fase 2                            |
 | [PRODUCT.md](PRODUCT.md)                                                   | Registro do produto para o trabalho de design              |
+| [DESIGN.md](DESIGN.md)                                                     | Identidade visual e Design System                          |
 
 Também: [docs/SECURITY.md](docs/SECURITY.md), [docs/LGPD.md](docs/LGPD.md) e
 [docs/DATABASE.md](docs/DATABASE.md).
@@ -72,4 +77,5 @@ tests/                 unit, integration, e2e
 ```
 
 Os módulos de domínio (`src/modules/`) são criados na fase que os implementa.
+
 # my-advisor

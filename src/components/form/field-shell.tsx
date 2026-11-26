@@ -9,7 +9,7 @@ type FieldShellProps = {
 };
 
 export const fieldControlClass =
-  "h-12 px-3 text-base md:text-base aria-invalid:border-destructive";
+  "h-12 bg-card px-3 text-base md:text-base aria-invalid:border-danger-strong";
 
 // Ids do texto de apoio e do erro, para ligar o campo a eles (aria-describedby).
 export function describedBy(id: string, hint?: string, error?: string) {
@@ -34,7 +34,10 @@ export function FieldShell({
         </p>
       )}
       {error && (
-        <p id={`${id}-error`} className="text-sm font-medium text-destructive">
+        <p
+          id={`${id}-error`}
+          className="text-sm font-medium text-danger-strong"
+        >
           {error}
         </p>
       )}

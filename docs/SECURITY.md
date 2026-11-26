@@ -3,7 +3,7 @@
 Estado da segurança ao fim de cada fase. Requisitos no [SDD §6](SDD.md); desenho em
 [ARCHITECTURE.md](ARCHITECTURE.md); riscos em [ANALISE-SDD.md §5](ANALISE-SDD.md).
 
-Última atualização: Fase 1 implementada localmente (2026-11-25).
+Última atualização: Fase 2 implementada localmente (2026-11-25).
 
 ## O que já está em vigor
 
@@ -85,6 +85,23 @@ dependem do que mais roda nele. Decidir na configuração do domínio (Fase 8).
   pedido de exclusão. Só o tipo e a data; o usuário não altera nem apaga eventos.
 - **Exclusão de conta**: exige a senha atual e a palavra `EXCLUIR`; apaga usuário, perfil e
   eventos, e deixa uma linha sem dado pessoal em `account_deletions`.
+
+### Dados financeiros (Fase 2)
+
+- **Isolamento em duas camadas**: RLS em cada tabela e chave estrangeira composta com `user_id`
+  em cada vínculo. Uma movimentação não consegue apontar para conta, cartão ou categoria de
+  outra pessoa, mesmo com o id em mãos.
+- **Privilégio por coluna**: pela API ninguém informa `id` nem `user_id`, e o tipo da
+  movimentação não é alterável.
+- **Regras no banco**: a combinação de tipo, forma de pagamento, conta e cartão é uma restrição
+  da tabela, não só do formulário.
+- **Toda Server Action da fase começa por `requireUser()`** e valida os campos antes de tocar
+  no banco. Ids vindos do formulário precisam ser UUID.
+- **Filtros do histórico** aceitam só valores conhecidos; o texto da busca é tratado como
+  literal.
+- **Auditoria** de criação, edição e exclusão guarda só o id da movimentação.
+- **Log técnico** registra código de erro, nunca valor, descrição ou nome.
+- **Cartão**: não existe campo para número, validade, código ou senha.
 
 ### Limitações conhecidas
 

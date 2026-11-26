@@ -1,6 +1,13 @@
 {
   "version": 2,
   "skills": {
+    "caveman": {
+      "source": "JuliusBrussee/caveman",
+      "commit": "47c61be2d10a354f0c5cbe2b90959d24c06b16c6",
+      "sourceType": "github",
+      "skillPath": "skills/caveman/SKILL.md",
+      "computedHash": "b51af74aacdadbc3c2d6bb79f05db58dc521854b87f7ffabd48faf286a81ed31"
+    },
     "impeccable": {
       "source": "pbakaus/impeccable",
       "commit": "b49177d32788f2dc585c42831d845dacf1ebed2c",

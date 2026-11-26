@@ -75,3 +75,73 @@ export async function accountDeletionCount(): Promise<number> {
   if (error) throw error;
   return count ?? 0;
 }
+
+// ---------- Fase 2: dados fictícios criados direto no banco, para os testes irem ao ponto.
+
+type Row = Record<string, unknown>;
+
+async function seed(table: string, row: Row): Promise<string> {
+  const { data, error } = await adminClient()
+    .from(table)
+    .insert(row)
+    .select("id")
+    .single();
+  if (error) throw error;
+  return data.id as string;
+}
+
+export function seedAccount(userId: string, name: string, initialCents = 0) {
+  return seed("accounts", {
+    user_id: userId,
+    name,
+    account_type: "checking",
+    initial_balance_cents: initialCents,
+  });
+}
+
+export function seedCard(userId: string, name: string) {
+  return seed("cards", { user_id: userId, name, brand: "visa" });
+}
+
+export async function categoryIdOf(userId: string, name: string, type: string) {
+  const { data, error } = await adminClient()
+    .from("categories")
+    .select("id")
+    .eq("user_id", userId)
+    .eq("name", name)
+    .eq("type", type)
+    .single();
+  if (error) throw error;
+  return data.id as string;
+}
+
+export function seedTransaction(userId: string, row: Row) {
+  return seed("transactions", {
+    user_id: userId,
+    idempotency_key: crypto.randomUUID(),
+    ...row,
+  });
+}
+
+export async function transactionsOf(userId: string) {
+  const { data, error } = await adminClient()
+    .from("transactions")
+    .select(
+      "id, type, amount_cents, payment_method, account_id, card_id, status",
+    )
+    .eq("user_id", userId)
+    .order("created_at");
+  if (error) throw error;
+  return data;
+}
+
+export async function auditEntitiesOf(userId: string) {
+  const { data, error } = await adminClient()
+    .from("audit_events")
+    .select("event_type, entity_type, entity_id")
+    .eq("user_id", userId)
+    .like("event_type", "transaction_%")
+    .order("created_at");
+  if (error) throw error;
+  return data;
+}

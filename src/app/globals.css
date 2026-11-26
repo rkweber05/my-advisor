@@ -5,6 +5,24 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --color-brand: var(--brand);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-active: var(--brand-active);
+  --color-success: var(--success);
+  --color-success-strong: var(--success-strong);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-strong: var(--danger-strong);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning: var(--warning);
+  --color-warning-strong: var(--warning-strong);
+  --color-warning-soft: var(--warning-soft);
+  --color-info: var(--info);
+  --color-info-strong: var(--info-strong);
+  --color-info-soft: var(--info-soft);
+  --shadow-card: 0 2px 12px rgb(20 38 61 / 0.05);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
@@ -39,48 +57,79 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 10px;
+  --radius-xl: 16px;
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.21 0.006 286);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.21 0.006 286);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.21 0.006 286);
-  --primary: oklch(0.511 0.086 186.4);
-  --primary-foreground: oklch(0.985 0.005 186);
-  --secondary: oklch(0.967 0.001 286);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.967 0.001 286);
-  --muted-foreground: oklch(0.442 0.017 286);
-  --accent: oklch(0.967 0.001 286);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.505 0.213 27.5);
-  --border: oklch(0.92 0.004 286);
-  --input: oklch(0.62 0.014 286);
-  --ring: oklch(0.511 0.086 186.4);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  /* Identidade do Meu Advisor. Fonte de verdade e regras de uso: DESIGN.md. */
+
+  /* Marca */
+  --brand: #14263d;
+  --brand-secondary: #233e5c;
+  --brand-foreground: #ffffff;
+  --brand-muted: #b4c0d0;
+  --brand-active: #5fd6ae;
+  --accent-brand: #0f8b6d;
+
+  /* Superfícies e texto */
+  --background: #f4f6f9;
+  --foreground: #172033;
+  --card: #ffffff;
+  --card-foreground: #172033;
+  --popover: #ffffff;
+  --popover-foreground: #172033;
+  --muted: #eef1f5;
+  --muted-foreground: #586579;
+  --border: #e2e8f0;
+  --input: #8693a6;
+
+  /* Ação: o esmeralda oficial escurecido, para texto branco passar em contraste */
+  --primary: #0b7559;
+  --primary-foreground: #ffffff;
+  --ring: #0b7559;
+  --secondary: #14263d;
+  --secondary-foreground: #ffffff;
+  --accent: #eef1f5;
+  --accent-foreground: #172033;
+
+  /* Semânticas: a cor oficial marca; a variante "strong" é a que serve para texto */
+  --success: #16a36a;
+  --success-strong: #0d7a4d;
+  --success-soft: #e8f6ef;
+  --danger: #dc5252;
+  --danger-strong: #b63636;
+  --danger-soft: #fbecec;
+  --warning: #d99a27;
+  --warning-strong: #8a5a00;
+  --warning-soft: #fbf3e2;
+  --info: #3985c8;
+  --info-strong: #24639f;
+  --info-soft: #eaf2fa;
+  --destructive: #b63636;
+
+  --chart-1: #14263d;
+  --chart-2: #0f8b6d;
+  --chart-3: #d99a27;
+  --chart-4: #dc5252;
+  --chart-5: #3985c8;
+
+  /* Raio: pequeno 6px, médio 10px, grande 16px */
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  --sidebar: #14263d;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #0f8b6d;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #233e5c;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #233e5c;
+  --sidebar-ring: #5fd6ae;
 }
 
 .dark {

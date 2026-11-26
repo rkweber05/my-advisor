@@ -8,7 +8,7 @@ export function FormMessage({ state }: { state: FormState }) {
     return (
       <p
         role="alert"
-        className={`${baseClass} border-destructive/40 bg-destructive/5 text-destructive`}
+        className={`${baseClass} border-danger/40 bg-danger-soft text-danger-strong`}
       >
         {state.message}
       </p>
@@ -19,7 +19,7 @@ export function FormMessage({ state }: { state: FormState }) {
     return (
       <p
         role="status"
-        className={`${baseClass} border-primary/30 bg-primary/5 text-foreground`}
+        className={`${baseClass} border-success/40 bg-success-soft text-foreground`}
       >
         {state.success}
       </p>
@@ -33,7 +33,7 @@ export function Notice({ children }: { children: React.ReactNode }) {
   return (
     <p
       role="status"
-      className={`${baseClass} border-border bg-muted text-foreground`}
+      className={`${baseClass} border-info/40 bg-info-soft text-foreground`}
     >
       {children}
     </p>

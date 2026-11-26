@@ -82,14 +82,15 @@ cadastro (D-12).
   incomoda ("Lazer estourou o orçamento em R$ 80"), sem elogio de cortesia e sem alarmismo.
 - Estilo pedido no SDD §8.1, registrado como está: moderno, minimalista, profissional, inspirado
   em fintechs.
-- Não há logotipo, paleta nem tipografia definidos.
+- Paleta, tipografia e componentes estão definidos em [DESIGN.md](DESIGN.md), adotado em
+  2026-11-25. Não há logotipo.
 
 ## Evidence on Hand
 
 - [docs/SDD.md](docs/SDD.md): especificação completa do produto.
 - Esboço de quatro telas com dados fictícios, visto pelo proprietário em 2026-11-23:
-  https://claude.ai/artifact/Xo6SCBqqvkATxrY75959aR. É um rascunho de direção, não um sistema
-  visual aprovado.
+  https://claude.ai/artifact/Xo6SCBqqvkATxrY75959aR. Vale como referência de fluxo; o visual
+  dele foi substituído pelo [DESIGN.md](DESIGN.md).
 - Não existem usuários, depoimentos, métricas de uso, casos de sucesso nem imprensa. Trabalho
   futuro não pode inventá-los.
 - Os valores de exemplo do SDD (R$ 6.500, R$ 4.230, R$ 2.270, R$ 800) são ilustrativos.

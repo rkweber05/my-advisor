@@ -6,6 +6,8 @@ export type FormState = {
   message?: string;
   // Confirmação de que deu certo, quando a ação não redireciona.
   success?: string;
+  // Pergunta de confirmação quando já existe lançamento parecido.
+  duplicate?: string;
   fieldErrors?: Record<string, string>;
   // Valores devolvidos para o formulário não se esvaziar. Nunca inclui senha.
   values?: Record<string, string>;

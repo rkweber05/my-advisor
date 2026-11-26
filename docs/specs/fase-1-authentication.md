@@ -313,7 +313,9 @@ comportamento de `getUser` depois do logout e a CSP com nonce no Next.js 16.
 
 ## Desenho das telas (entrega 1.5)
 
-Brief de desenho. Status: **aprovado pelo proprietário em 2026-11-25**. Respostas do
+Brief de desenho. Status: **aprovado pelo proprietário em 2026-11-25**. O visual descrito no
+item 2 foi substituído no mesmo dia pelo [DESIGN.md](../../DESIGN.md); estrutura, textos e
+estados continuam valendo. Respostas do
 proprietário em 2026-11-25: e-mail fora da lista recebe a mesma resposta dos demais; a sessão
 dura até a pessoa sair; as telas seguem o visual do esboço.
 
@@ -494,4 +496,7 @@ autenticação do projeto de preview do Supabase, que são aplicadas pelo painel
 
 ## E. Aprovação
 
-Pendente. A fase só é concluída com a aprovação do proprietário e o CI verde.
+Em 2026-11-25 o proprietário fez o commit das Fases 0 e 1, enviou para o GitHub e mandou seguir
+para a Fase 2. O resultado do CI não foi conferido por quem implementou: a ferramenta de
+consulta ao GitHub não está instalada na máquina. A conclusão formal continua dependendo do CI
+verde.
